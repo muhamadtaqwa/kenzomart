@@ -9,15 +9,16 @@ export default function Index({ products, filters = {} }) {
             <Head title="Katalog Produk Digital" />
 
             {/* Hero Banner */}
-            <div className="relative overflow-hidden rounded-2xl md:rounded-3xl bg-gradient-to-r from-teal-900 via-teal-800 to-teal-950 text-white px-4 py-4 md:px-8 md:py-5 mb-6 md:mb-8 shadow-xl shadow-teal-950/10 border border-teal-700/30">
+            <div className="relative overflow-hidden rounded-2xl md:rounded-3xl bg-gradient-to-r from-teal-900 via-teal-800 to-teal-950 text-white px-4 py-4 md:px-8 md:py-6 mb-5 md:mb-8 shadow-xl shadow-teal-950/10 border border-teal-700/30">
                 <div className="absolute -right-10 -bottom-10 w-32 h-32 md:w-48 md:h-48 bg-teal-500/20 rounded-full blur-3xl pointer-events-none" />
                 <div className="relative z-10 md:max-w-xl">
                     <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 md:px-3 md:py-1 rounded-full bg-teal-500/20 text-teal-200 text-[10px] md:text-xs font-medium backdrop-blur-md mb-2 border border-teal-400/20">
                         <Sparkles className="w-3 h-3" />
                         <span>KenzoMart Digital Solutions</span>
                     </div>
-                    <h1 className="text-lg md:text-xl font-bold tracking-tight text-white mb-1">
-                        Solusi Produk Digital Cepat & Otomatis
+                    <h1 className="text-xl md:text-3xl font-bold tracking-tight text-white mb-1.5 md:mb-2 leading-tight">
+                        Solusi Produk Digital{" "}
+                        <span className="text-teal-300">Cepat & Otomatis</span>
                     </h1>
                     <p className="text-teal-100/80 text-xs md:text-sm leading-relaxed">
                         Pembayaran aman & praktis via QRIS.
