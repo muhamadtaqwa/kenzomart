@@ -1,13 +1,24 @@
 import AdminLayout from "@/Layouts/AdminLayout";
 import { Head, Link, router } from "@inertiajs/react";
 import { useState } from "react";
-import { Copy, Check, ArrowLeft, Truck, Trash2, CheckCircle2, Clock } from "lucide-react";
+import {
+    Copy,
+    Check,
+    ArrowLeft,
+    Truck,
+    Trash2,
+    CheckCircle2,
+    Clock,
+} from "lucide-react";
 
 const statusColors = {
-    pending: "bg-amber-50 dark:bg-amber-950/50 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800/60",
+    pending:
+        "bg-amber-50 dark:bg-amber-950/50 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800/60",
     paid: "bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800/60",
-    delivered: "bg-teal-50 dark:bg-teal-950/60 text-teal-700 dark:text-teal-300 border-teal-200 dark:border-teal-800/60",
-    expired: "bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 border-slate-200 dark:border-zinc-700",
+    delivered:
+        "bg-teal-50 dark:bg-teal-950/60 text-teal-700 dark:text-teal-300 border-teal-200 dark:border-teal-800/60",
+    expired:
+        "bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 border-slate-200 dark:border-zinc-700",
     failed: "bg-rose-50 dark:bg-rose-950/50 text-rose-700 dark:text-rose-300 border-rose-200 dark:border-rose-800/60",
 };
 
@@ -21,6 +32,8 @@ const statusLabels = {
 
 export default function Show({ order }) {
     const [copied, setCopied] = useState(false);
+    const [copiedPhone, setCopiedPhone] = useState(false);
+    const [copiedEmail, setCopiedEmail] = useState(false);
     const [statusValue, setStatusValue] = useState(order.status);
     const [isUpdating, setIsUpdating] = useState(false);
 
@@ -35,6 +48,18 @@ export default function Show({ order }) {
         navigator.clipboard.writeText(order.invoice_number);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
+    };
+
+    const copyPhone = () => {
+        navigator.clipboard.writeText(order.customer.phone);
+        setCopiedPhone(true);
+        setTimeout(() => setCopiedPhone(false), 2000);
+    };
+
+    const copyEmail = () => {
+        navigator.clipboard.writeText(order.customer.email);
+        setCopiedEmail(true);
+        setTimeout(() => setCopiedEmail(false), 2000);
     };
 
     const handleUpdateStatus = (e) => {
@@ -52,27 +77,27 @@ export default function Show({ order }) {
 
     const handleDeliver = () => {
         if (confirm("Tandai pesanan ini sebagai sudah terkirim / selesai?")) {
-            router.post(`/dashboard/orders/${order.id}/deliver`, {}, { preserveScroll: true });
+            router.post(
+                `/dashboard/orders/${order.id}/deliver`,
+                {},
+                { preserveScroll: true },
+            );
         }
     };
 
     const handleDelete = () => {
-        if (confirm(`Apakah Anda yakin ingin menghapus pesanan "${order.invoice_number}"?`)) {
+        if (
+            confirm(
+                `Apakah Anda yakin ingin menghapus pesanan "${order.invoice_number}"?`,
+            )
+        ) {
             router.delete(`/dashboard/orders/${order.id}`);
         }
     };
 
     return (
-        <AdminLayout title={`Detail Pesanan: ${order.invoice_number}`}>
+        <AdminLayout title={`Detail Pesanan`}>
             <Head title={`Pesanan ${order.invoice_number} - KenzoMart Admin`} />
-
-            <Link
-                href="/dashboard/orders"
-                className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-zinc-400 hover:text-teal-600 dark:hover:text-teal-400 mb-4 transition"
-            >
-                <ArrowLeft className="w-3.5 h-3.5" />
-                Kembali ke daftar pesanan
-            </Link>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-6">
                 {/* Kolom Kiri */}
@@ -95,12 +120,10 @@ export default function Show({ order }) {
                                         {copied ? (
                                             <>
                                                 <Check className="w-3.5 h-3.5" />
-                                                <span>Tersalin</span>
                                             </>
                                         ) : (
                                             <>
                                                 <Copy className="w-3.5 h-3.5" />
-                                                <span>Salin</span>
                                             </>
                                         )}
                                     </button>
@@ -115,14 +138,18 @@ export default function Show({ order }) {
 
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 pt-4 border-t border-slate-100 dark:border-zinc-800 text-xs">
                             <div>
-                                <p className="text-slate-500 dark:text-zinc-400">Waktu Pembuatan</p>
+                                <p className="text-slate-500 dark:text-zinc-400">
+                                    Waktu Pembuatan
+                                </p>
                                 <p className="font-semibold text-slate-900 dark:text-zinc-200 mt-0.5">
                                     {order.created_at}
                                 </p>
                             </div>
                             {order.paid_at && (
                                 <div>
-                                    <p className="text-slate-500 dark:text-zinc-400">Waktu Pembayaran</p>
+                                    <p className="text-slate-500 dark:text-zinc-400">
+                                        Waktu Pembayaran
+                                    </p>
                                     <p className="font-semibold text-slate-900 dark:text-zinc-200 mt-0.5">
                                         {order.paid_at}
                                     </p>
@@ -130,7 +157,9 @@ export default function Show({ order }) {
                             )}
                             {order.delivered_at && (
                                 <div>
-                                    <p className="text-slate-500 dark:text-zinc-400">Waktu Pengiriman</p>
+                                    <p className="text-slate-500 dark:text-zinc-400">
+                                        Waktu Pengiriman
+                                    </p>
                                     <p className="font-semibold text-slate-900 dark:text-zinc-200 mt-0.5">
                                         {order.delivered_at}
                                     </p>
@@ -159,7 +188,8 @@ export default function Show({ order }) {
                                                 {item.variant_name}
                                             </p>
                                             <p className="text-xs text-slate-400 dark:text-zinc-500 mt-0.5">
-                                                {formatRupiah(item.price)} × {item.quantity}
+                                                {formatRupiah(item.price)} ×{" "}
+                                                {item.quantity}
                                             </p>
                                         </div>
                                         <p className="font-bold text-slate-900 dark:text-zinc-100 shrink-0">
@@ -211,30 +241,47 @@ export default function Show({ order }) {
                             </button>
                         )}
 
-                        <form onSubmit={handleUpdateStatus} className="space-y-3">
+                        <form
+                            onSubmit={handleUpdateStatus}
+                            className="space-y-3"
+                        >
                             <div>
                                 <label className="block text-xs font-medium text-slate-700 dark:text-zinc-300 mb-1.5">
                                     Pilih Status Baru
                                 </label>
                                 <select
                                     value={statusValue}
-                                    onChange={(e) => setStatusValue(e.target.value)}
+                                    onChange={(e) =>
+                                        setStatusValue(e.target.value)
+                                    }
                                     className="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-slate-900 dark:text-zinc-100 text-xs outline-none focus:border-teal-500"
                                 >
-                                    <option value="pending">Pending (Menunggu)</option>
+                                    <option value="pending">
+                                        Pending (Menunggu)
+                                    </option>
                                     <option value="paid">Paid (Dibayar)</option>
-                                    <option value="delivered">Delivered (Terkirim)</option>
-                                    <option value="expired">Expired (Kadaluarsa)</option>
-                                    <option value="failed">Failed (Gagal)</option>
+                                    <option value="delivered">
+                                        Delivered (Terkirim)
+                                    </option>
+                                    <option value="expired">
+                                        Expired (Kadaluarsa)
+                                    </option>
+                                    <option value="failed">
+                                        Failed (Gagal)
+                                    </option>
                                 </select>
                             </div>
 
                             <button
                                 type="submit"
-                                disabled={isUpdating || statusValue === order.status}
+                                disabled={
+                                    isUpdating || statusValue === order.status
+                                }
                                 className="w-full py-2 px-3 rounded-xl bg-slate-900 hover:bg-slate-800 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-white text-xs font-medium transition disabled:opacity-50 disabled:cursor-not-allowed"
                             >
-                                {isUpdating ? "Memperbarui..." : "Simpan Status"}
+                                {isUpdating
+                                    ? "Memperbarui..."
+                                    : "Simpan Status"}
                             </button>
                         </form>
 
@@ -250,24 +297,57 @@ export default function Show({ order }) {
                         </div>
                     </div>
 
-                    {/* Customer */}
+                    {/* Customer — Kiri kanan + copy */}
                     <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-slate-200/90 dark:border-zinc-800 p-5 shadow-xs">
                         <h2 className="text-sm font-bold text-slate-900 dark:text-zinc-100 mb-3">
                             Informasi Pembeli
                         </h2>
-                        <div className="space-y-3 text-sm">
-                            <div>
-                                <p className="text-xs text-slate-500 dark:text-zinc-400">No. WhatsApp</p>
-                                <p className="font-semibold text-slate-900 dark:text-zinc-100 mt-0.5">
-                                    {order.customer.phone}
-                                </p>
+                        <div className="space-y-2.5">
+                            {/* WhatsApp */}
+                            <div className="flex items-center justify-between gap-3 py-1.5 border-b border-slate-100 dark:border-zinc-800">
+                                <span className="text-xs text-slate-500 dark:text-zinc-400 shrink-0">
+                                    WhatsApp
+                                </span>
+                                <div className="flex items-center gap-2 min-w-0">
+                                    <span className="font-mono text-xs font-semibold text-slate-900 dark:text-zinc-100 truncate text-right">
+                                        {order.customer.phone}
+                                    </span>
+                                    <button
+                                        onClick={copyPhone}
+                                        className="inline-flex items-center justify-center w-6 h-6 rounded-md text-teal-600 dark:text-teal-400 hover:bg-teal-50 dark:hover:bg-teal-950/60 transition shrink-0"
+                                        aria-label="Salin WhatsApp"
+                                    >
+                                        {copiedPhone ? (
+                                            <Check className="w-3 h-3" />
+                                        ) : (
+                                            <Copy className="w-3 h-3" />
+                                        )}
+                                    </button>
+                                </div>
                             </div>
+
+                            {/* Email */}
                             {order.customer.email && (
-                                <div>
-                                    <p className="text-xs text-slate-500 dark:text-zinc-400">Email Pembeli</p>
-                                    <p className="font-medium text-slate-900 dark:text-zinc-100 mt-0.5 break-all">
-                                        {order.customer.email}
-                                    </p>
+                                <div className="flex items-center justify-between gap-3 py-1.5">
+                                    <span className="text-xs text-slate-500 dark:text-zinc-400 shrink-0">
+                                        Email
+                                    </span>
+                                    <div className="flex items-center gap-2 min-w-0">
+                                        <span className="text-xs font-medium text-slate-900 dark:text-zinc-100 truncate text-right">
+                                            {order.customer.email}
+                                        </span>
+                                        <button
+                                            onClick={copyEmail}
+                                            className="inline-flex items-center justify-center w-6 h-6 rounded-md text-teal-600 dark:text-teal-400 hover:bg-teal-50 dark:hover:bg-teal-950/60 transition shrink-0"
+                                            aria-label="Salin Email"
+                                        >
+                                            {copiedEmail ? (
+                                                <Check className="w-3 h-3" />
+                                            ) : (
+                                                <Copy className="w-3 h-3" />
+                                            )}
+                                        </button>
+                                    </div>
                                 </div>
                             )}
                         </div>

@@ -81,11 +81,15 @@ export default function Detail({ order }) {
                     <div className="space-y-1.5 pt-4 border-t border-slate-100 dark:border-zinc-800 text-xs text-slate-600 dark:text-zinc-400">
                         <p className="flex justify-between">
                             <span>Waktu Transaksi:</span>
-                            <span className="font-medium text-slate-900 dark:text-zinc-200">{order.created_at}</span>
+                            <span className="font-medium text-slate-900 dark:text-zinc-200">
+                                {order.created_at}
+                            </span>
                         </p>
                         <p className="flex justify-between">
                             <span>Nomor WhatsApp:</span>
-                            <span className="font-medium text-slate-900 dark:text-zinc-200">{order.customer.phone}</span>
+                            <span className="font-medium text-slate-900 dark:text-zinc-200">
+                                {order.customer.phone}
+                            </span>
                         </p>
                     </div>
                 </div>
@@ -136,7 +140,8 @@ export default function Detail({ order }) {
                                         </div>
                                     ) : (
                                         <p className="text-xs text-slate-500 dark:text-zinc-400 italic">
-                                            Detail produk sedang diproses untuk dikirim.
+                                            Detail produk sedang diproses untuk
+                                            dikirim.
                                         </p>
                                     )}
                                 </div>
@@ -178,7 +183,9 @@ export default function Detail({ order }) {
                 {/* Total */}
                 <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-slate-200/90 dark:border-zinc-800 p-5 mb-5 shadow-sm">
                     <div className="flex justify-between items-center">
-                        <span className="text-sm text-slate-500 dark:text-zinc-400">Total Pembayaran</span>
+                        <span className="text-sm text-slate-500 dark:text-zinc-400">
+                            Total Pembayaran
+                        </span>
                         <span className="text-xl font-bold text-teal-600 dark:text-teal-400">
                             {formatRupiah(order.total_amount)}
                         </span>
@@ -201,7 +208,6 @@ export default function Detail({ order }) {
                         className="w-full flex items-center justify-center gap-2 text-center bg-teal-600 hover:bg-teal-700 active:bg-teal-800 text-white text-sm font-semibold px-4 py-3.5 rounded-xl shadow-lg shadow-teal-600/20 transition"
                     >
                         <span>Lanjutkan Pembayaran</span>
-                        <ArrowRight className="w-4 h-4" />
                     </Link>
                 )}
             </div>

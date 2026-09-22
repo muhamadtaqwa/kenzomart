@@ -295,7 +295,7 @@ export default function StorefrontLayout({ children }) {
     return (
         <div className="min-h-screen flex bg-slate-50 dark:bg-zinc-950 text-slate-800 dark:text-zinc-100 font-sans transition-colors duration-200">
             {/* ==================== SIDEBAR DESKTOP ==================== */}
-            <aside className="hidden md:flex md:flex-col md:w-60 lg:w-64 shrink-0 bg-white dark:bg-zinc-900 border-r border-slate-200/80 dark:border-zinc-800 sticky top-0 h-screen">
+            <aside className="hidden md:flex md:flex-col md:w-52 lg:w-56 shrink-0 bg-white dark:bg-zinc-900 border-r border-slate-200/80 dark:border-zinc-800 sticky top-0 h-screen">
                 <SidebarContent />
             </aside>
 
@@ -314,7 +314,7 @@ export default function StorefrontLayout({ children }) {
                 />
                 {/* Drawer */}
                 <aside
-                    className={`absolute top-0 left-0 h-full w-[80vw] max-w-[300px] bg-white dark:bg-zinc-900 border-r border-slate-200 dark:border-zinc-800 shadow-2xl transition-transform duration-300 ease-out ${
+                    className={`absolute top-0 left-0 h-full w-[75vw] max-w-[260px] bg-white dark:bg-zinc-900 border-r border-slate-200 dark:border-zinc-800 shadow-2xl transition-transform duration-300 ease-out ${
                         sidebarOpen ? "translate-x-0" : "-translate-x-full"
                     }`}
                 >
@@ -339,7 +339,7 @@ export default function StorefrontLayout({ children }) {
                             </button>
 
                             {/* Judul mobile */}
-                            <span className="md:hidden text-sm font-bold truncate">
+                            <span className="md:hidden text-base font-bold truncate">
                                 <span className="text-slate-900 dark:text-white">
                                     Kenzo
                                 </span>

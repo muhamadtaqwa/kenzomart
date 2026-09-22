@@ -35,7 +35,7 @@ export default function Login() {
                             </span>
                         </h1>
                         <p className="text-xs text-slate-500 dark:text-zinc-400 mt-1">
-                            Masuk ke Dashboard Pengelola
+                            Masuk ke Dashboard Admin
                         </p>
                     </div>
 
@@ -45,11 +45,11 @@ export default function Login() {
                     >
                         <div className="mb-4">
                             <label className="block text-xs font-medium text-slate-700 dark:text-zinc-300 mb-1.5">
-                                Alamat Email
+                                Email
                             </label>
                             <input
                                 type="email"
-                                placeholder="admin@kenzomart.test"
+                                placeholder="example@gmail.com"
                                 value={data.email}
                                 onChange={(e) =>
                                     setData("email", e.target.value)
@@ -91,7 +91,7 @@ export default function Login() {
                                 className="rounded border-slate-300 dark:border-zinc-700 text-teal-600 focus:ring-teal-500 dark:bg-zinc-800"
                             />
                             <span className="text-xs text-slate-600 dark:text-zinc-400 font-medium">
-                                Ingat sesi login saya
+                                Ingat saya
                             </span>
                         </label>
 
@@ -107,7 +107,6 @@ export default function Login() {
                                 </>
                             ) : (
                                 <>
-                                    <Lock className="w-4 h-4" />
                                     <span>Masuk ke Panel</span>
                                 </>
                             )}
@@ -119,7 +118,7 @@ export default function Login() {
                             href="/"
                             className="text-xs text-slate-500 dark:text-zinc-400 hover:text-teal-600 dark:hover:text-teal-400 transition font-medium"
                         >
-                            ← Kembali ke Toko Publik
+                            Kembali ke Toko
                         </a>
                     </div>
                 </div>

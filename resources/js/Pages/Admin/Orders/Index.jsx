@@ -4,10 +4,13 @@ import { Search, ChevronDown, ShoppingBag } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 
 const statusColors = {
-    pending: "bg-amber-50 dark:bg-amber-950/50 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800/60",
+    pending:
+        "bg-amber-50 dark:bg-amber-950/50 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800/60",
     paid: "bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800/60",
-    delivered: "bg-teal-50 dark:bg-teal-950/60 text-teal-700 dark:text-teal-300 border-teal-200 dark:border-teal-800/60",
-    expired: "bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 border-slate-200 dark:border-zinc-700",
+    delivered:
+        "bg-teal-50 dark:bg-teal-950/60 text-teal-700 dark:text-teal-300 border-teal-200 dark:border-teal-800/60",
+    expired:
+        "bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 border-slate-200 dark:border-zinc-700",
     failed: "bg-rose-50 dark:bg-rose-950/50 text-rose-700 dark:text-rose-300 border-rose-200 dark:border-rose-800/60",
 };
 
@@ -82,16 +85,6 @@ export default function Index({ orders, stats, filters }) {
         <AdminLayout title="Daftar Pesanan">
             <Head title="Kelola Pesanan - KenzoMart Admin" />
 
-            {/* Header */}
-            <div className="mb-6">
-                <h1 className="text-xl font-bold text-slate-900 dark:text-zinc-100">
-                    Semua Transaksi Pesanan
-                </h1>
-                <p className="text-xs md:text-sm text-slate-500 dark:text-zinc-400 mt-0.5">
-                    Monitoring transaksi masuk, pembayaran QRIS, & status pengiriman digital
-                </p>
-            </div>
-
             {/* Search + Filter Dropdown */}
             <div className="flex gap-2.5 mb-5">
                 <form onSubmit={handleSearch} className="flex-1">
@@ -148,7 +141,9 @@ export default function Index({ orders, stats, filters }) {
                 {orders.length === 0 ? (
                     <div className="flex flex-col items-center justify-center py-16 text-slate-400 dark:text-zinc-500">
                         <ShoppingBag className="w-10 h-10 mb-2 opacity-50" />
-                        <p className="text-sm font-medium">Belum ada pesanan ditemukan</p>
+                        <p className="text-sm font-medium">
+                            Belum ada pesanan ditemukan
+                        </p>
                     </div>
                 ) : (
                     <div className="divide-y divide-slate-100 dark:divide-zinc-800">
@@ -173,7 +168,8 @@ export default function Index({ orders, stats, filters }) {
                                             </span>
                                         </div>
                                         <p className="text-xs text-slate-500 dark:text-zinc-400 mt-1">
-                                            {order.customer.phone} • {order.created_at}
+                                            {order.customer.phone} •{" "}
+                                            {order.created_at}
                                         </p>
                                         <p className="text-sm font-bold text-teal-600 dark:text-teal-400 mt-1">
                                             {formatRupiah(order.total_amount)}

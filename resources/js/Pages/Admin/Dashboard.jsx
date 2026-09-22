@@ -22,10 +22,13 @@ import {
 } from "recharts";
 
 const statusColors = {
-    pending: "bg-amber-50 dark:bg-amber-950/50 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800/60",
+    pending:
+        "bg-amber-50 dark:bg-amber-950/50 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800/60",
     paid: "bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800/60",
-    delivered: "bg-teal-50 dark:bg-teal-950/60 text-teal-700 dark:text-teal-300 border-teal-200 dark:border-teal-800/60",
-    expired: "bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 border-slate-200 dark:border-zinc-700",
+    delivered:
+        "bg-teal-50 dark:bg-teal-950/60 text-teal-700 dark:text-teal-300 border-teal-200 dark:border-teal-800/60",
+    expired:
+        "bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 border-slate-200 dark:border-zinc-700",
     failed: "bg-rose-50 dark:bg-rose-950/50 text-rose-700 dark:text-rose-300 border-rose-200 dark:border-rose-800/60",
 };
 
@@ -101,7 +104,7 @@ export default function Dashboard({
     ];
 
     return (
-        <AdminLayout title="Dashboard Pengelola">
+        <AdminLayout title="Dashboard Admin">
             <Head title="Dashboard - KenzoMart Admin" />
 
             {/* Stat Cards — 6 */}
@@ -155,7 +158,10 @@ export default function Dashboard({
                             <XAxis
                                 dataKey="date"
                                 tick={{ fontSize: 11, fill: "#64748b" }}
-                                axisLine={{ stroke: "#64748b", strokeOpacity: 0.2 }}
+                                axisLine={{
+                                    stroke: "#64748b",
+                                    strokeOpacity: 0.2,
+                                }}
                                 tickLine={false}
                             />
                             <YAxis
@@ -213,7 +219,10 @@ export default function Dashboard({
                             <XAxis
                                 dataKey="date"
                                 tick={{ fontSize: 11, fill: "#64748b" }}
-                                axisLine={{ stroke: "#64748b", strokeOpacity: 0.2 }}
+                                axisLine={{
+                                    stroke: "#64748b",
+                                    strokeOpacity: 0.2,
+                                }}
                                 tickLine={false}
                             />
                             <YAxis
@@ -256,7 +265,6 @@ export default function Dashboard({
                             className="bg-teal-600 text-white text-xs font-semibold px-3 py-1.5 rounded-xl hover:bg-teal-700 transition flex items-center gap-1"
                         >
                             <span>Semua Pesanan</span>
-                            <ArrowUpRight className="w-3.5 h-3.5" />
                         </Link>
                     </div>
 
@@ -307,7 +315,6 @@ export default function Dashboard({
                             className="bg-teal-600 text-white text-xs font-semibold px-3 py-1.5 rounded-xl hover:bg-teal-700 transition flex items-center gap-1"
                         >
                             <span>Kelola Produk</span>
-                            <ArrowUpRight className="w-3.5 h-3.5" />
                         </Link>
                     </div>
 

@@ -1,7 +1,7 @@
 import StorefrontLayout from "@/Layouts/StorefrontLayout";
 import { Head, Link, usePage } from "@inertiajs/react";
 import { useState, useEffect } from "react";
-import { Copy, Check, Clock, QrCode, ArrowRight } from "lucide-react";
+import { Copy, Check, Clock, QrCode, Download } from "lucide-react";
 
 export default function Payment({ order: initialOrder }) {
     const { flash } = usePage().props;
@@ -9,6 +9,7 @@ export default function Payment({ order: initialOrder }) {
     const [copied, setCopied] = useState(false);
     const [copiedIndex, setCopiedIndex] = useState(null);
     const [timeLeft, setTimeLeft] = useState(null);
+    const [downloading, setDownloading] = useState(false);
 
     const formatRupiah = (value) =>
         new Intl.NumberFormat("id-ID", {
@@ -16,6 +17,10 @@ export default function Payment({ order: initialOrder }) {
             currency: "IDR",
             minimumFractionDigits: 0,
         }).format(value || 0);
+
+    const qrUrl = order.qr_string
+        ? `https://api.qrserver.com/v1/create-qr-code/?size=600x600&data=${encodeURIComponent(order.qr_string)}`
+        : null;
 
     const copyInvoice = () => {
         navigator.clipboard.writeText(order.invoice_number);
@@ -27,6 +32,34 @@ export default function Payment({ order: initialOrder }) {
         navigator.clipboard.writeText(content);
         setCopiedIndex(idx);
         setTimeout(() => setCopiedIndex(null), 2000);
+    };
+
+    /* ==================== DOWNLOAD QRIS — LANGSUNG FILE ==================== */
+    const handleDownloadQris = async () => {
+        if (!qrUrl || downloading) return;
+        setDownloading(true);
+
+        try {
+            // Fetch QR sebagai blob
+            const res = await fetch(qrUrl);
+            const blob = await res.blob();
+            const fileName = `QRIS-${order.invoice_number}.png`;
+
+            // Download langsung
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = fileName;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        } catch (err) {
+            console.error("Gagal download QRIS:", err);
+            alert("Gagal mengunduh QRIS. Coba lagi atau screenshot manual.");
+        } finally {
+            setDownloading(false);
+        }
     };
 
     // Polling status tiap 5 detik
@@ -104,13 +137,18 @@ export default function Payment({ order: initialOrder }) {
                     )}
                     {isExpired && (
                         <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-rose-50 dark:bg-rose-950/50 text-rose-700 dark:text-rose-300 text-xs font-medium border border-rose-200 dark:border-rose-800/60">
-                            Pesanan {order.status === "expired" ? "Kadaluarsa" : "Gagal"}
+                            Pesanan{" "}
+                            {order.status === "expired"
+                                ? "Kadaluarsa"
+                                : "Gagal"}
                         </div>
                     )}
                 </div>
 
                 <h1 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-zinc-100 text-center mb-6">
-                    {isPaid ? "Terima Kasih! Pesanan Sukses" : "Selesaikan Pembayaran"}
+                    {isPaid
+                        ? "Terima Kasih! Pesanan Sukses"
+                        : "Selesaikan Pembayaran"}
                 </h1>
 
                 {/* Invoice Info */}
@@ -202,7 +240,9 @@ export default function Payment({ order: initialOrder }) {
                                                     }
                                                     className="inline-flex items-center gap-1 text-xs text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:hover:text-teal-300 font-medium"
                                                 >
-                                                    {copiedIndex === idx ? "Tersalin" : "Salin Kredensial"}
+                                                    {copiedIndex === idx
+                                                        ? "Tersalin"
+                                                        : "Salin Kredensial"}
                                                 </button>
                                             </div>
                                             <pre className="text-xs text-slate-900 dark:text-zinc-100 whitespace-pre-wrap font-mono break-all leading-relaxed">
@@ -211,7 +251,8 @@ export default function Payment({ order: initialOrder }) {
                                         </div>
                                     ) : (
                                         <p className="text-xs text-slate-500 dark:text-zinc-400 italic">
-                                            Detail produk sedang diproses dan akan segera tampil.
+                                            Detail produk sedang diproses dan
+                                            akan segera tampil.
                                         </p>
                                     )}
                                 </div>
@@ -260,13 +301,33 @@ export default function Payment({ order: initialOrder }) {
                         {/* Always white bg for QR image so scanner contrasts properly in dark mode */}
                         <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm max-w-xs mx-auto">
                             <img
-                                src={`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(order.qr_string)}`}
+                                src={qrUrl}
                                 alt="QRIS KenzoMart"
                                 className="w-full h-auto mx-auto block"
                             />
                         </div>
+
+                        {/* Tombol Download */}
+                        <button
+                            onClick={handleDownloadQris}
+                            disabled={downloading}
+                            className="mt-4 w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 active:bg-teal-800 text-white text-sm font-semibold shadow-sm shadow-teal-600/20 transition disabled:opacity-60 disabled:cursor-not-allowed"
+                        >
+                            {downloading ? (
+                                <>
+                                    <Download className="w-4 h-4 animate-pulse" />
+                                    <span>Mengunduh...</span>
+                                </>
+                            ) : (
+                                <>
+                                    <Download className="w-4 h-4" />
+                                    <span>Download QRIS</span>
+                                </>
+                            )}
+                        </button>
                         <p className="text-xs text-slate-500 dark:text-zinc-400 mt-4 leading-relaxed">
-                            Mendukung GoPay, DANA, OVO, ShopeePay, LinkAja, serta seluruh aplikasi Mobile Banking.
+                            Mendukung GoPay, DANA, OVO, ShopeePay, LinkAja,
+                            serta seluruh aplikasi Mobile Banking.
                         </p>
                     </div>
                 )}
@@ -278,7 +339,8 @@ export default function Payment({ order: initialOrder }) {
                             Pesanan Telah Kadaluarsa
                         </h2>
                         <p className="text-xs text-rose-600 dark:text-rose-400">
-                            Batas waktu pembayaran telah habis. Silakan lakukan pemesanan baru.
+                            Batas waktu pembayaran telah habis. Silakan lakukan
+                            pemesanan baru.
                         </p>
                     </div>
                 )}
@@ -298,7 +360,6 @@ export default function Payment({ order: initialOrder }) {
                     className="w-full flex items-center justify-center gap-2 text-center bg-teal-600 hover:bg-teal-700 active:bg-teal-800 text-white text-sm font-semibold px-4 py-3.5 rounded-xl shadow-lg shadow-teal-600/20 transition"
                 >
                     <span>Cek Riwayat & Status Pesanan</span>
-                    <ArrowRight className="w-4 h-4" />
                 </Link>
             </div>
         </StorefrontLayout>

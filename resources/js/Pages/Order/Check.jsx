@@ -1,6 +1,6 @@
 import StorefrontLayout from "@/Layouts/StorefrontLayout";
 import { Head, useForm } from "@inertiajs/react";
-import { Loader2, Search, Receipt } from "lucide-react";
+import { Loader2, Search, PaperBag } from "lucide-react";
 
 export default function Check() {
     const { data, setData, post, processing, errors } = useForm({
@@ -19,13 +19,13 @@ export default function Check() {
             <div className="max-w-md mx-auto">
                 <div className="text-center mb-6">
                     <div className="w-12 h-12 rounded-2xl bg-teal-50 dark:bg-teal-950/60 text-teal-600 dark:text-teal-400 border border-teal-100 dark:border-teal-900/40 flex items-center justify-center mx-auto mb-3">
-                        <Receipt className="w-6 h-6" />
+                        <PaperBag className="w-6 h-6" />
                     </div>
                     <h1 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-zinc-100">
                         Cek Status Pesanan
                     </h1>
                     <p className="text-xs md:text-sm text-slate-500 dark:text-zinc-400 mt-1">
-                        Masukkan nomor invoice pesanan digital Anda
+                        Masukkan nomor invoice pesanan Anda
                     </p>
                 </div>
 
@@ -70,7 +70,6 @@ export default function Check() {
                             </>
                         ) : (
                             <>
-                                <Search className="w-4 h-4" />
                                 <span>Cek Status Sekarang</span>
                             </>
                         )}

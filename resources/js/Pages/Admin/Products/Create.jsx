@@ -69,14 +69,6 @@ export default function Create({ categories }) {
             <Head title="Tambah Produk - KenzoMart Admin" />
 
             <div className="max-w-4xl mx-auto">
-                <Link
-                    href="/dashboard/products"
-                    className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-zinc-400 hover:text-teal-600 dark:hover:text-teal-400 mb-4 transition"
-                >
-                    <ArrowLeft className="w-3.5 h-3.5" />
-                    Kembali ke daftar produk
-                </Link>
-
                 <form onSubmit={handleSubmit} className="space-y-5 mb-8">
                     {/* Info Produk */}
                     <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-slate-200/90 dark:border-zinc-800 p-5 md:p-6 shadow-xs">
@@ -230,7 +222,9 @@ export default function Create({ categories }) {
                                         {data.variants.length > 1 && (
                                             <button
                                                 type="button"
-                                                onClick={() => removeVariant(idx)}
+                                                onClick={() =>
+                                                    removeVariant(idx)
+                                                }
                                                 className="inline-flex items-center gap-1 bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800/60 text-[10px] font-semibold px-2 py-1 rounded-lg hover:bg-rose-100 transition"
                                             >
                                                 <Trash2 className="w-3 h-3" />
@@ -319,8 +313,12 @@ export default function Create({ categories }) {
                                             }
                                             className="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-slate-900 dark:text-zinc-100 focus:border-teal-500 outline-none text-xs"
                                         >
-                                            <option value="account">Akun (Email & Password)</option>
-                                            <option value="link">Link / Lisensi</option>
+                                            <option value="account">
+                                                Akun (Email & Password)
+                                            </option>
+                                            <option value="link">
+                                                Link / Lisensi
+                                            </option>
                                         </select>
                                     </div>
 

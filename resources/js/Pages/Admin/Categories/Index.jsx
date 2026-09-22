@@ -101,12 +101,14 @@ export default function Index({ categories }) {
                                     </div>
                                 </div>
 
-                                {/* Baris 2: Slug + Produk count */}
-                                <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-slate-500 dark:text-zinc-400">
-                                    <span className="font-mono bg-slate-100 dark:bg-zinc-800 px-2 py-0.5 rounded text-[11px]">
+                                {/* Baris 2: Slug (kiri) + Produk count (kanan) */}
+                                <div className="flex items-center justify-between gap-2 text-xs text-slate-500 dark:text-zinc-400">
+                                    <span className="font-mono bg-slate-100 dark:bg-zinc-800 px-2 py-0.5 rounded text-[11px] truncate">
                                         /{cat.slug}
                                     </span>
-                                    <span>{cat.products_count} produk terhubung</span>
+                                    <span className="shrink-0 text-[11px]">
+                                        {cat.products_count} produk terhubung
+                                    </span>
                                 </div>
                             </div>
                         ))}

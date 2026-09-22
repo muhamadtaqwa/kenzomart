@@ -32,14 +32,6 @@ export default function Edit({ category }) {
             <Head title={`Edit ${category.name} - KenzoMart Admin`} />
 
             <div className="max-w-2xl mx-auto">
-                <Link
-                    href="/dashboard/categories"
-                    className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-zinc-400 hover:text-teal-600 dark:hover:text-teal-400 mb-4 transition"
-                >
-                    <ArrowLeft className="w-3.5 h-3.5" />
-                    Kembali ke daftar kategori
-                </Link>
-
                 <form
                     onSubmit={handleSubmit}
                     className="bg-white dark:bg-zinc-900 rounded-2xl border border-slate-200/90 dark:border-zinc-800 p-5 md:p-6 shadow-xs mb-6"
@@ -56,7 +48,9 @@ export default function Edit({ category }) {
                             <input
                                 type="text"
                                 value={data.name}
-                                onChange={(e) => handleNameChange(e.target.value)}
+                                onChange={(e) =>
+                                    handleNameChange(e.target.value)
+                                }
                                 className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-800/80 text-slate-900 dark:text-zinc-100 focus:border-teal-500 dark:focus:border-teal-400 focus:ring-2 focus:ring-teal-500/20 outline-none text-sm transition-all"
                                 required
                             />
@@ -73,7 +67,9 @@ export default function Edit({ category }) {
                             <input
                                 type="text"
                                 value={data.slug}
-                                onChange={(e) => setData("slug", e.target.value)}
+                                onChange={(e) =>
+                                    setData("slug", e.target.value)
+                                }
                                 className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-800/80 text-slate-900 dark:text-zinc-100 focus:border-teal-500 dark:focus:border-teal-400 focus:ring-2 focus:ring-teal-500/20 outline-none text-sm font-mono transition-all"
                                 required
                             />
@@ -91,7 +87,9 @@ export default function Edit({ category }) {
                         </label>
                         <textarea
                             value={data.description}
-                            onChange={(e) => setData("description", e.target.value)}
+                            onChange={(e) =>
+                                setData("description", e.target.value)
+                            }
                             rows={3}
                             className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-800/80 text-slate-900 dark:text-zinc-100 focus:border-teal-500 dark:focus:border-teal-400 focus:ring-2 focus:ring-teal-500/20 outline-none text-sm transition-all"
                         />
@@ -101,7 +99,9 @@ export default function Edit({ category }) {
                         <input
                             type="checkbox"
                             checked={data.is_active}
-                            onChange={(e) => setData("is_active", e.target.checked)}
+                            onChange={(e) =>
+                                setData("is_active", e.target.checked)
+                            }
                             className="rounded border-slate-300 dark:border-zinc-700 text-teal-600 focus:ring-teal-500 dark:bg-zinc-800"
                         />
                         <span className="text-xs text-slate-700 dark:text-zinc-300 font-medium">

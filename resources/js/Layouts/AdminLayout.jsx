@@ -17,9 +17,9 @@ import ThemeToggle from "@/Components/ThemeToggle";
 const navItems = [
     { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
     { label: "Pesanan", href: "/dashboard/orders", icon: ShoppingCart },
-    { label: "Produk", href: "/dashboard/products", icon: Package },
-    { label: "Kategori", href: "/dashboard/categories", icon: Tags },
     { label: "Customer", href: "/dashboard/customers", icon: Users },
+    { label: "Kategori", href: "/dashboard/categories", icon: Tags },
+    { label: "Produk", href: "/dashboard/products", icon: Package },
 ];
 
 export default function AdminLayout({ children, title }) {
@@ -115,7 +115,7 @@ export default function AdminLayout({ children, title }) {
                         className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-600 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-zinc-800 hover:text-slate-900 dark:hover:text-zinc-200 transition"
                     >
                         <ExternalLink className="w-4 h-4 shrink-0" />
-                        Buka Toko Publik
+                        Buka Toko
                     </a>
                     <button
                         onClick={handleLogout}
@@ -145,20 +145,6 @@ export default function AdminLayout({ children, title }) {
 
                     <div className="flex items-center gap-3">
                         <ThemeToggle />
-
-                        <div className="h-5 w-[1px] bg-slate-200 dark:bg-zinc-700 mx-1 hidden sm:block" />
-
-                        <div className="text-right hidden sm:block">
-                            <p className="text-sm font-semibold text-slate-900 dark:text-zinc-100 leading-tight">
-                                {user?.name}
-                            </p>
-                            <p className="text-xs text-slate-500 dark:text-zinc-400">
-                                {user?.email}
-                            </p>
-                        </div>
-                        <div className="w-9 h-9 rounded-xl bg-teal-50 dark:bg-teal-950/70 border border-teal-200 dark:border-teal-800/80 text-teal-700 dark:text-teal-300 flex items-center justify-center font-bold text-sm shadow-xs">
-                            {user?.name?.charAt(0)?.toUpperCase() || "A"}
-                        </div>
                     </div>
                 </header>
 

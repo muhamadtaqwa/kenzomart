@@ -30,7 +30,7 @@ export default function Index({ customers }) {
                     Data Pelanggan
                 </h1>
                 <p className="text-xs md:text-sm text-slate-500 dark:text-zinc-400 mt-0.5">
-                    Total {customers.length} nomor/akun pelanggan terdaftar
+                    Total {customers.length} pelanggan terdaftar
                 </p>
             </div>
 
@@ -40,7 +40,7 @@ export default function Index({ customers }) {
                     <Search className="w-4 h-4 text-slate-400 dark:text-zinc-500 shrink-0" />
                     <input
                         type="text"
-                        placeholder="Cari nama, nomor WhatsApp, atau email pelanggan..."
+                        placeholder="Cari pelanggan..."
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                         className="w-full bg-transparent outline-none text-sm text-slate-800 dark:text-zinc-100 placeholder-slate-400 dark:placeholder-zinc-500"

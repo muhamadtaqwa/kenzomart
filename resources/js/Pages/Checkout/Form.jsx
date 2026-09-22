@@ -40,7 +40,7 @@ export default function Form({ product, variant }) {
                         Konfirmasi Pesanan
                     </h1>
                     <p className="text-xs md:text-sm text-slate-500 dark:text-zinc-400 mt-1">
-                        Lengkapi informasi kontak untuk pengiriman detail akun.
+                        Lengkapi informasi untuk pengiriman detail akun.
                     </p>
                 </div>
 
@@ -100,9 +100,7 @@ export default function Form({ product, variant }) {
                             className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-800/80 text-slate-900 dark:text-zinc-100 focus:border-teal-500 dark:focus:border-teal-400 focus:ring-2 focus:ring-teal-500/20 outline-none text-sm transition-all"
                             required
                         />
-                        <p className="text-[11px] text-slate-400 dark:text-zinc-500 mt-1">
-                            Digunakan untuk pengecekan pesanan & notifikasi pengiriman.
-                        </p>
+
                         {errors.phone && (
                             <p className="text-xs text-rose-500 mt-1">
                                 {errors.phone}
@@ -111,9 +109,15 @@ export default function Form({ product, variant }) {
                     </div>
 
                     {/* Error Box */}
-                    {(errors.variant_id || errors.variant || errors.duitku || errors.general) && (
+                    {(errors.variant_id ||
+                        errors.variant ||
+                        errors.duitku ||
+                        errors.general) && (
                         <div className="mb-4 p-3 rounded-xl bg-rose-50 dark:bg-rose-950/50 border border-rose-200 dark:border-rose-900/60 text-xs text-rose-600 dark:text-rose-400 font-medium">
-                            {errors.variant_id || errors.variant || errors.duitku || errors.general}
+                            {errors.variant_id ||
+                                errors.variant ||
+                                errors.duitku ||
+                                errors.general}
                         </div>
                     )}
 
