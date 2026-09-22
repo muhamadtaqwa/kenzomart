@@ -1,5 +1,5 @@
 import { Head, useForm } from "@inertiajs/react";
-import { Loader2, ShoppingBag, Lock } from "lucide-react";
+import { Loader2, PaperBag, Lock } from "lucide-react";
 import ThemeToggle from "@/Components/ThemeToggle";
 
 export default function Login() {
@@ -26,10 +26,13 @@ export default function Login() {
                 <div className="w-full max-w-sm">
                     <div className="text-center mb-8">
                         <div className="w-12 h-12 rounded-2xl bg-teal-600 text-white flex items-center justify-center mx-auto mb-3 shadow-lg shadow-teal-600/20">
-                            <ShoppingBag className="w-6 h-6" />
+                            <PaperBag className="w-6 h-6" />
                         </div>
                         <h1 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
-                            Kenzo<span className="text-teal-600 dark:text-teal-400">Mart</span>
+                            Kenzo
+                            <span className="text-teal-600 dark:text-teal-400">
+                                Mart
+                            </span>
                         </h1>
                         <p className="text-xs text-slate-500 dark:text-zinc-400 mt-1">
                             Masuk ke Dashboard Pengelola

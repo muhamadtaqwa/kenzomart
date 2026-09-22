@@ -9,7 +9,7 @@ import {
     Menu,
     X,
     ExternalLink,
-    ShoppingBag,
+    PaperBag,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import ThemeToggle from "@/Components/ThemeToggle";
@@ -65,10 +65,13 @@ export default function AdminLayout({ children, title }) {
                         className="flex items-center gap-2 text-lg font-bold text-slate-900 dark:text-white tracking-tight"
                     >
                         <div className="w-7 h-7 rounded-lg bg-teal-600 text-white flex items-center justify-center shadow-sm">
-                            <ShoppingBag className="w-4 h-4" />
+                            <PaperBag className="w-4 h-4" />
                         </div>
                         <span>
-                            Kenzo<span className="text-teal-600 dark:text-teal-400">Mart</span>
+                            Kenzo
+                            <span className="text-teal-600 dark:text-teal-400">
+                                Mart
+                            </span>
                         </span>
                         <span className="text-[10px] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded bg-slate-100 dark:bg-zinc-800 text-slate-500 dark:text-zinc-400 ml-0.5">
                             Admin

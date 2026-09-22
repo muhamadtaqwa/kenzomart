@@ -7,6 +7,7 @@
     <title inertia>{{ config('app.name', 'KenzoMart') }}</title>
 
     {{-- Favicon --}}
+    <link rel="icon" type="image/svg+xml" href="/icon.svg">
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
     <link rel="apple-touch-icon" href="/icon-192.png">

@@ -1,5 +1,5 @@
 import { Link, usePage, router } from "@inertiajs/react";
-import { Search, Menu, X, ShoppingBag } from "lucide-react";
+import { Search, Menu, X, PaperBag } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import ThemeToggle from "@/Components/ThemeToggle";
 
@@ -118,10 +118,13 @@ export default function StorefrontLayout({ children }) {
                                     className="hidden md:flex items-center gap-2 text-xl font-bold text-slate-900 dark:text-white tracking-tight group"
                                 >
                                     <div className="w-8 h-8 rounded-xl bg-teal-600 text-white flex items-center justify-center shadow-sm shadow-teal-500/20 group-hover:scale-105 transition-transform">
-                                        <ShoppingBag className="w-4 h-4" />
+                                        <PaperBag className="w-4 h-4" />
                                     </div>
                                     <span>
-                                        Kenzo<span className="text-teal-600 dark:text-teal-400">Mart</span>
+                                        Kenzo
+                                        <span className="text-teal-600 dark:text-teal-400">
+                                            Mart
+                                        </span>
                                     </span>
                                 </Link>
                             </div>
@@ -136,10 +139,13 @@ export default function StorefrontLayout({ children }) {
                                 }`}
                             >
                                 <div className="w-6 h-6 rounded-lg bg-teal-600 text-white flex items-center justify-center">
-                                    <ShoppingBag className="w-3.5 h-3.5" />
+                                    <PaperBag className="w-3.5 h-3.5" />
                                 </div>
                                 <span>
-                                    Kenzo<span className="text-teal-600 dark:text-teal-400">Mart</span>
+                                    Kenzo
+                                    <span className="text-teal-600 dark:text-teal-400">
+                                        Mart
+                                    </span>
                                 </span>
                             </Link>
 
@@ -272,17 +278,21 @@ export default function StorefrontLayout({ children }) {
                     <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                         <div className="flex items-center gap-2">
                             <div className="w-6 h-6 rounded-lg bg-teal-600 text-white flex items-center justify-center">
-                                <ShoppingBag className="w-3.5 h-3.5" />
+                                <PaperBag className="w-3.5 h-3.5" />
                             </div>
                             <span className="font-bold text-slate-900 dark:text-white text-base">
-                                Kenzo<span className="text-teal-600 dark:text-teal-400">Mart</span>
+                                Kenzo
+                                <span className="text-teal-600 dark:text-teal-400">
+                                    Mart
+                                </span>
                             </span>
                             <span className="text-xs text-slate-400 dark:text-zinc-500 ml-2 hidden sm:inline">
                                 Toko Produk Digital Otomatis
                             </span>
                         </div>
                         <p className="text-xs text-slate-500 dark:text-zinc-500 text-center md:text-right">
-                            © {new Date().getFullYear()} KenzoMart. All rights reserved.
+                            © {new Date().getFullYear()} KenzoMart. All rights
+                            reserved.
                         </p>
                     </div>
                 </div>
