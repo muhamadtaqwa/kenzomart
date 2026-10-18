@@ -409,8 +409,7 @@ export default function StorefrontLayout({ children }) {
                     </div>
                 </header>
 
-                {/* Main */}
-                <main className="flex-1 w-full max-w-6xl mx-auto px-4 md:px-6 py-5 md:py-8">
+                <main className="flex-1 w-full max-w-6xl xl:max-w-7xl mx-auto px-4 md:px-6 py-5 md:py-8">
                     {children}
                 </main>
 

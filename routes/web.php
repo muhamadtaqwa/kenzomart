@@ -10,6 +10,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentCallbackController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\QrisWebhookController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
@@ -36,6 +37,10 @@ Route::get('/cron/expire-orders/{token}', function ($token) {
 Route::post('/payment/duitku-callback', [PaymentCallbackController::class, 'handle'])
     ->middleware('throttle:30,1')
     ->name('payment.callback');
+
+Route::post('/payment/qris-webhook', [QrisWebhookController::class, 'handle'])
+    ->middleware('throttle:60,1')
+    ->name('payment.qris-webhook');
 
 // ==================== STOREFRONT ====================
 Route::get('/', [ProductController::class, 'index'])->name('home');

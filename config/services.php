@@ -47,4 +47,9 @@ return [
             : 'https://sandbox.duitku.com/webapi',
     ],
 
+    'qris' => [
+        'static_payload' => env('QRIS_STATIC_PAYLOAD', '00020101021126610014COM.GO-JEK.WWW01189360091430884775170210G0884775170303UMI51440014ID.CO.QRIS.WWW0215ID10254623294630303UMI5204899953033605802ID5925Kenzo Mart, Digital Solut6008SEMARANG61055021162070703A016304659D'),
+        'webhook_secret' => env('QRIS_WEBHOOK_SECRET', 'kenzomart_qris_secret_2026'),
+        'expiry_minutes' => (int) env('QRIS_EXPIRY_MINUTES', 30),
+    ],
 ];

@@ -9,20 +9,30 @@ export default function Index({ products, filters = {} }) {
             <Head title="Katalog Produk Digital" />
 
             {/* Hero Banner */}
-            <div className="relative overflow-hidden rounded-2xl md:rounded-3xl bg-gradient-to-r from-teal-900 via-teal-800 to-teal-950 text-white px-4 py-4 md:px-8 md:py-6 mb-5 md:mb-8 shadow-xl shadow-teal-950/10 border border-teal-700/30">
-                <div className="absolute -right-10 -bottom-10 w-32 h-32 md:w-48 md:h-48 bg-teal-500/20 rounded-full blur-3xl pointer-events-none" />
-                <div className="relative z-10 md:max-w-xl">
-                    <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 md:px-3 md:py-1 rounded-full bg-teal-500/20 text-teal-200 text-[10px] md:text-xs font-medium backdrop-blur-md mb-2 border border-teal-400/20">
-                        <Sparkles className="w-3 h-3" />
-                        <span>KenzoMart Digital Solutions</span>
+            <div className="relative overflow-hidden rounded-2xl md:rounded-3xl bg-gradient-to-r from-teal-900 via-teal-800 to-teal-950 text-white px-4 py-4 md:px-8 md:py-7 lg:py-8 mb-5 md:mb-8 shadow-xl shadow-teal-950/10 border border-teal-700/30">
+                <div className="absolute -right-10 -bottom-10 w-32 h-32 md:w-56 md:h-56 bg-teal-500/20 rounded-full blur-3xl pointer-events-none" />
+
+                <div className="relative z-10 flex items-center justify-between gap-6">
+                    <div className="md:max-w-xl">
+                        <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 md:px-3 md:py-1 rounded-full bg-teal-500/20 text-teal-200 text-[10px] md:text-xs font-medium backdrop-blur-md mb-2 border border-teal-400/20">
+                            <Sparkles className="w-3 h-3" />
+                            <span>KenzoMart Digital Solutions</span>
+                        </div>
+                        <h1 className="text-xl md:text-3xl font-bold tracking-tight text-white mb-1.5 md:mb-2 leading-tight">
+                            Solusi Produk Digital{" "}
+                            <span className="text-teal-300">
+                                Cepat & Otomatis
+                            </span>
+                        </h1>
+                        <p className="text-teal-100/80 text-xs md:text-sm leading-relaxed">
+                            Pembayaran aman & praktis via QRIS.
+                        </p>
                     </div>
-                    <h1 className="text-xl md:text-3xl font-bold tracking-tight text-white mb-1.5 md:mb-2 leading-tight">
-                        Solusi Produk Digital{" "}
-                        <span className="text-teal-300">Cepat & Otomatis</span>
-                    </h1>
-                    <p className="text-teal-100/80 text-xs md:text-sm leading-relaxed">
-                        Pembayaran aman & praktis via QRIS.
-                    </p>
+
+                    {/* Ikon besar — hanya desktop */}
+                    <div className="hidden md:flex w-24 h-24 lg:w-32 lg:h-32 rounded-3xl bg-teal-500/20 border border-teal-400/30 items-center justify-center shrink-0">
+                        <Sparkles className="w-12 h-12 lg:w-16 lg:h-16 text-teal-300" />
+                    </div>
                 </div>
             </div>
 
@@ -46,7 +56,7 @@ export default function Index({ products, filters = {} }) {
             {/* Section Header */}
             <div className="flex items-center justify-between mb-4 md:mb-5">
                 <div>
-                    <h2 className="text-base md:text-xl font-bold text-slate-900 dark:text-zinc-100">
+                    <h2 className="text-base md:text-2xl font-bold text-slate-900 dark:text-zinc-100">
                         Daftar Produk
                     </h2>
                     <p className="text-xs md:text-sm text-slate-500 dark:text-zinc-400 mt-0.5">
@@ -67,7 +77,7 @@ export default function Index({ products, filters = {} }) {
                     </p>
                 </div>
             ) : (
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-3 md:gap-5">
                     {products.map((product) => (
                         <ProductCard key={product.id} product={product} />
                     ))}

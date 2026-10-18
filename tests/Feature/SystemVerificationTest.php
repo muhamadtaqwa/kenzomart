@@ -269,4 +269,88 @@ class SystemVerificationTest extends TestCase
         $variant->refresh();
         $this->assertEquals(4, $variant->stock); // 3 + 1 restored
     }
+
+    public function test_checkout_generates_dynamic_qris_and_unique_code(): void
+    {
+        $product = Product::create(['name' => 'CapCut Pro', 'slug' => 'capcut-pro', 'is_active' => true]);
+        $variant = $product->variants()->create([
+            'name' => '1 Bulan',
+            'price' => 15000,
+            'stock' => 5,
+            'delivery_content' => 'capcut:user:pass',
+            'is_active' => true,
+        ]);
+
+        $response = $this->post('/checkout', [
+            'product_id' => $product->id,
+            'variant_id' => $variant->id,
+            'phone' => '081298765432',
+        ]);
+
+        $customer = Customer::where('phone', '081298765432')->first();
+        $order = Order::where('customer_id', $customer->id)->first();
+        $this->assertNotNull($order);
+        $this->assertGreaterThan(0, $order->unique_code);
+        $this->assertEquals(15000 + $order->unique_code, (int) $order->total_amount);
+        $this->assertStringContainsString('000201010212', $order->qr_string); // Dynamic QRIS indicator
+
+        $response->assertRedirect("/checkout/{$order->invoice_number}/payment");
+    }
+
+    public function test_qris_webhook_marks_order_paid_and_delivers(): void
+    {
+        $product = Product::create(['name' => 'NordVPN', 'slug' => 'nordvpn', 'is_active' => true]);
+        $variant = $product->variants()->create([
+            'name' => '1 Tahun',
+            'price' => 20000,
+            'stock' => 5,
+            'delivery_content' => 'nordvpn:token123',
+            'is_active' => true,
+        ]);
+
+        $customer = Customer::create(['phone' => '081234433221']);
+        $uniqueAmount = 20188;
+
+        $order = Order::create([
+            'invoice_number' => 'INV-WEBHOOK-TEST',
+            'customer_id' => $customer->id,
+            'status' => 'pending',
+            'total_amount' => $uniqueAmount,
+            'unique_code' => 188,
+            'expired_at' => now()->addMinutes(30),
+        ]);
+
+        OrderItem::create([
+            'order_id' => $order->id,
+            'product_id' => $product->id,
+            'product_variant_id' => $variant->id,
+            'product_name' => $product->name,
+            'variant_name' => $variant->name,
+            'delivery_content' => 'nordvpn:token123',
+            'price' => 20000,
+            'quantity' => 1,
+            'subtotal' => 20000,
+        ]);
+
+        // 1. Test unauthorized without secret
+        $unauthResponse = $this->postJson('/payment/qris-webhook', [
+            'title' => 'Pembayaran QRIS statis diterima',
+            'message' => "Rp 20.188 di Kenzo Mart, Digital Solutions.",
+        ]);
+        $unauthResponse->assertStatus(403);
+
+        // 2. Test authorized with secret
+        $authResponse = $this->postJson('/payment/qris-webhook', [
+            'title' => 'Pembayaran QRIS statis diterima',
+            'message' => "Rp 20.188 di Kenzo Mart, Digital Solutions.",
+        ], [
+            'X-Webhook-Secret' => config('services.qris.webhook_secret'),
+        ]);
+        $authResponse->assertStatus(200);
+        $authResponse->assertJson(['status' => 'success']);
+
+        $order->refresh();
+        $this->assertEquals('paid', $order->status);
+        $this->assertNotNull($order->paid_at);
+    }
 }

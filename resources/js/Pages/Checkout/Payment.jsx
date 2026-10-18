@@ -187,6 +187,14 @@ export default function Payment({ order: initialOrder }) {
                                 {formatRupiah(order.total_amount)}
                             </span>
                         </div>
+                        {isPending && order.unique_code > 0 && (
+                            <div className="mt-2.5 flex items-center justify-between text-xs text-slate-500 dark:text-zinc-400 bg-teal-50/50 dark:bg-teal-950/30 px-3 py-2 rounded-xl border border-teal-200/50 dark:border-teal-800/40">
+                                <span>Termasuk kode unik:</span>
+                                <span className="font-bold text-teal-700 dark:text-teal-300">
+                                    +{order.unique_code}
+                                </span>
+                            </div>
+                        )}
                     </div>
 
                     {/* Countdown */}
@@ -326,8 +334,7 @@ export default function Payment({ order: initialOrder }) {
                             )}
                         </button>
                         <p className="text-xs text-slate-500 dark:text-zinc-400 mt-4 leading-relaxed">
-                            Mendukung GoPay, DANA, OVO, ShopeePay, LinkAja,
-                            serta seluruh aplikasi Mobile Banking.
+                            Mendukung GoPay, DANA, OVO, ShopeePay, BCA, Livin Mandiri, BRI, BNI, dan seluruh e-wallet & m-banking. Nominal sudah terkunci otomatis saat di-scan. Verifikasi pembayaran berjalan otomatis dalam beberapa detik.
                         </p>
                     </div>
                 )}

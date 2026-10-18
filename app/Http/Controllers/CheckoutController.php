@@ -8,6 +8,7 @@ use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Services\DuitkuService;
+use App\Services\QrisService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -17,10 +18,12 @@ use Inertia\Response;
 class CheckoutController extends Controller
 {
     protected DuitkuService $duitku;
+    protected QrisService $qris;
 
-    public function __construct(DuitkuService $duitku)
+    public function __construct(DuitkuService $duitku, QrisService $qris)
     {
         $this->duitku = $duitku;
+        $this->qris = $qris;
     }
 
     public function show(string $slug, Request $request)
@@ -84,8 +87,21 @@ class CheckoutController extends Controller
             return back()->withErrors(['variant_id' => 'Stok varian habis.']);
         }
 
+        $basePrice = (int) round($variant->price);
+        $uniqueCode = $this->generateUniqueCode($basePrice);
+        $totalAmount = $basePrice + $uniqueCode;
+
+        try {
+            $dynamicQris = $this->qris->generateDynamicQris($totalAmount);
+        } catch (\Exception $e) {
+            Log::error('QRIS error saat checkout', ['error' => $e->getMessage()]);
+            return back()->withErrors(['variant_id' => 'Gagal memproses QRIS: ' . $e->getMessage()]);
+        }
+
+        $expiryMinutes = (int) config('services.qris.expiry_minutes', 30);
+
         // Bikin Order
-        $order = DB::transaction(function () use ($validated, $product, $variant) {
+        $order = DB::transaction(function () use ($validated, $product, $variant, $totalAmount, $uniqueCode, $dynamicQris, $expiryMinutes) {
             $customer = Customer::firstOrCreate(
                 ['phone' => $validated['phone']],
                 ['email' => null]
@@ -95,8 +111,12 @@ class CheckoutController extends Controller
                 'invoice_number' => $this->generateInvoiceNumber(),
                 'customer_id' => $customer->id,
                 'status' => 'pending',
-                'total_amount' => $variant->price,
-                'expired_at' => now()->addMinutes(config('services.duitku.expiry_minutes', 30)),
+                'total_amount' => $totalAmount,
+                'unique_code' => $uniqueCode,
+                'payment_method' => 'qris',
+                'payment_reference' => 'QRIS-' . now()->format('YmdHis'),
+                'qr_string' => $dynamicQris,
+                'expired_at' => now()->addMinutes($expiryMinutes),
             ]);
 
             OrderItem::create([
@@ -116,31 +136,11 @@ class CheckoutController extends Controller
             return $order;
         });
 
-        // Panggil Duitku
-        try {
-            $order->load(['customer', 'items']);
-            $duitkuResponse = $this->duitku->createQrisTransaction($order);
-
-            $order->update([
-                'payment_method' => 'qris',
-                'payment_reference' => $duitkuResponse['reference'],
-                'duitku_reference' => $duitkuResponse['reference'],
-                'qr_string' => $duitkuResponse['qr_string'],
-            ]);
-
-            Log::info('Duitku QRIS created', [
-                'order' => $order->invoice_number,
-                'reference' => $duitkuResponse['reference'],
-            ]);
-        } catch (\Exception $e) {
-            Log::error('Duitku error saat checkout', [
-                'order' => $order->invoice_number,
-                'error' => $e->getMessage(),
-            ]);
-
-            return redirect()->route('checkout.payment', ['invoice' => $order->invoice_number])
-                ->withErrors(['duitku' => 'Gagal membuat QRIS: ' . $e->getMessage()]);
-        }
+        Log::info('QRIS Order created', [
+            'order' => $order->invoice_number,
+            'total' => $totalAmount,
+            'unique_code' => $uniqueCode,
+        ]);
 
         return redirect()->route('checkout.payment', ['invoice' => $order->invoice_number]);
     }
@@ -157,6 +157,7 @@ class CheckoutController extends Controller
                 'id' => $order->id,
                 'invoice_number' => $order->invoice_number,
                 'total_amount' => (float) $order->total_amount,
+                'unique_code' => (int) $order->unique_code,
                 'status' => $order->status,
                 'qr_string' => $order->qr_string,
                 'payment_reference' => $order->payment_reference,
@@ -242,5 +243,35 @@ class CheckoutController extends Controller
         } while (Order::where('invoice_number', $invoice)->exists());
 
         return $invoice;
+    }
+
+    private function generateUniqueCode(int $basePrice): int
+    {
+        // Ambil total_amount semua order pending yang masih aktif
+        $activeAmounts = Order::query()
+            ->where('status', 'pending')
+            ->where(function ($q) {
+                $q->whereNull('expired_at')->orWhere('expired_at', '>', now());
+            })
+            ->pluck('total_amount')
+            ->map(fn($val) => (int) round($val))
+            ->toArray();
+
+        // Cari kode acak 1..499 yang belum bentrok
+        for ($attempts = 0; $attempts < 50; $attempts++) {
+            $code = random_int(1, 499);
+            if (!in_array($basePrice + $code, $activeAmounts)) {
+                return $code;
+            }
+        }
+
+        // Jika padat, cari berurutan 1..999
+        for ($code = 1; $code <= 999; $code++) {
+            if (!in_array($basePrice + $code, $activeAmounts)) {
+                return $code;
+            }
+        }
+
+        return random_int(1, 999);
     }
 }

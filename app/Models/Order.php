@@ -13,6 +13,7 @@ class Order extends Model
         'customer_id',
         'status',
         'total_amount',
+        'unique_code',
         'payment_method',
         'payment_reference',
         'qr_string',              // ← baru
@@ -28,6 +29,7 @@ class Order extends Model
 
     protected $casts = [
         'total_amount' => 'decimal:2',
+        'unique_code' => 'integer',
         'paid_at' => 'datetime',
         'delivered_at' => 'datetime',
         'payment_verified_at' => 'datetime',
